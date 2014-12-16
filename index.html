@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <!--[if (IE 8)]><html class="ie ie8"><![endif]-->
 <!--[if (IE 9)]><html class="ie ie9"><![endif]-->
@@ -86,19 +85,22 @@
 									<li class="calendar_nav menu_btn clearfix">
 										<a href="#"><button type="button" data-theme="b"></button></a>
 									</li>
+									<!--data-bind="text:prevMonthText"-->
 									<li class="calendar_nav left_btn clearfix">
-										<a href="#"><button type="button" data-theme="b">Jan</button></a>
+										<a href="#"><button type="button" data-theme="b" data-bind="jqmPrevButton"></button></a>
 									</li>
 									<li id="current-month">
 									<fieldset data-role="controlgroup" data-type="horizontal">
-							<select name="select-month" id="sel_month" data-native-menu="false" data-mini="true" data-bind="options:allMonthsList, optionsText: 'name',  optionsValue: 'id', value:currentDate"> 
+							<select name="select-month" id="sel_month" data-native-menu="false" data-mini="true" data-bind="options:allMonthsList, optionsText: 'name',  optionsValue: 'id', value:currentMonth"> 
 											
 							</select>
 							<select name="button" id="sel_year" data-native-menu="false" data-mini="true" data-bind="options:allYearsList , value:currentYear">	</select>
 									</fieldset>
 									</li>
 									<li class="calendar_nav right_btn clearfix">
-										<a href="#"><button type="button"  data-theme="b"  data-toggle="button">Jun</button></a>
+										<a href="#">
+											<button type="button"  data-theme="b"  data-toggle="button" data-bind="jqmNextButton"></button>
+										</a>
 									</li>
 									<li class="share_btn calendar_nav_share">
 										<a href="#" id="export_pop"><button type="button" data-theme="b">Export<div class="export_img"></div></button></a>
@@ -152,7 +154,3 @@
 		
 	</body>
 </html>	
-
-
-
-
