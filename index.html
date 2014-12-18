@@ -10,8 +10,9 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=11"/>
 		<title>Corporate Calendar :: KnockoutJS</title>
 
-			<link rel="stylesheet" href="css/jquery.mobile-1.3.2.min.css">
-			<link rel="stylesheet" href="css/newcss.css">
+			<link rel="stylesheet" href="css/jquery.mobile-1.3.2.min.css" />
+			<!--<link rel="stylesheet" href="css/newcss.css" />-->
+			<link rel="stylesheet" href="css/global.css" />
 			<script src="js/vendors/jquery-2.0.3.min.js"></script>
 			<script src="js/vendors/jquery.mobile-1.3.2.min.js"></script>
 			<script src="js/vendors/knockout3.2.0-min.js"></script>
@@ -42,16 +43,19 @@
 
 				<div id="primary-left" class="content-primary clearfix" >
 					<div class="left_list_view">
-						<ul data-role="listview" data-eventtype-count="0">
-							<li data-role="list-divider" data-theme="c">Event Types
+						<!--<ul data-role="listview" data-bind="template : {name : 'tpl-event-categories' , foreach : eventsCategories , as : 'eveType' , afterRender : eventTypesTemplateAfterRender , afterAdd : eventTypesAfterAdd}">-->
+						
+						
+						<ul data-role="listview" data-bind="template : {name : 'tpl-event-categories' , foreach : eventsCategories , as : 'eveType'}">
+							<!--<li data-role="list-divider" data-theme="c">Event Types
 								<div class="select_all_check_event">
 									<input type="checkbox" name="sel-all-chk-eve" id="sel-all-chk-eve" value="" />
 									<label for="sel-all-chk-eve" data-iconpos="right">Select All</label>
 								</div>
-							</li>
+							</li>-->
 							
 							
-							 <li class="left_list_view_li">
+							<!-- <li class="left_list_view_li">
 								<div class="checkbox_background" style="background: #009999;">
 									<input type="checkbox" name="checkbox-1" id="checkbox-1" class="custom" data-role="none" />
 									<label for="checkbox-1">
@@ -68,7 +72,7 @@
 									</label>
 								</div>
 								<a href="#">Segment Hub Weekly Meeting</a>
-							</li
+							</li-->
 
 							
 							
@@ -135,21 +139,57 @@
 		</div>
 			
 <!-- Start of KO's Template -->
+
+<!-- Template for Month Display -->
 	
 	<script type="text/html" id="tpl-month-calendar">
 
-		<li class="calendar-day" data-bind="css:{inactive : daycell.status === 'I'}">
-			<div class="date">
-				<a href="#" data-role="none" data-bind="text:daycell.day"> </a>
-            </div>
-            
-      	</li>
+<li class="calendar-day" data-bind="css:{inactive : daycell.status === 'I'}">
+
+	<div class="date">
+		<a href="#" data-role="none" data-bind="text:daycell.EventDay"> </a>
+	</div>
+
+	<div class="pointer" data-bind="template: {name : 'tpl-event' , foreach : daycell.Events , as : 'category'}"></div>
 	
-	</script>			
-			
+	<div class="more_events" data-bind="ifnot: daycell.status === 'I' , visible: daycell.Events.length > calView.allowedEventsPerCell">+</div>
+</li>
+	
+	</script>
+
+<!-- End of Month Template -->		
+	
+<!-- Template for Events Type -->		
+		
+	<script type="text/html" id="tpl-event-categories">
+		
+		<li class="left_list_view_li" data-bind="attr : {'data-category-id' : eveType.Id , 'data-event-type-id' : eveType.Guid }">
+				<div class="checkbox_background" data-bind="style : {backgroundColor : eveType.Color}">
+					<input type="checkbox" data-bind="jqmChecked:eveType.Guid" class="custom" />
+					<label for="$index"></label>
+				</div>
+				<a href="#" class="largeeventtype" data-bind="text: eveType.Name"></a>
+		</li>
+		
+	</script>							
+<!-- End of Events Type Template -->
+		
+					
+	<!--Template for Induvidual Events -->
+	
+	<script type="text/html" id="tpl-event">
+	
+		<div data-bind='eventHideShow : $index , attr: {"data-event-id" : category.EventId , "data-event-type-id" : category.EventTypeId} , style: {borderColor : category.Color} ' class="event_list_text">
+			<span class="e_l_text" data-bind="text: category.Title"></span>
+		</div>
+	
+	</script>
+	
+	<!--End of Induvidual Events Template-->																						
 			
 <!--End of Ko's Template-->
 
+<script src="js/cal-view-model.js"></script>
 <script src="js/demo.js"></script>			
 		
 	</body>
