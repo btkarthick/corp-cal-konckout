@@ -104,9 +104,44 @@ var calendarViewModel = function(){
 	};
 	
 	
-	self.eventTypesTemplateAfterRender = function(elements){
-
+	self.eventTypesLabelClick = function(index , objEveCat){
+		
+		var eleCheckbox = "#checkbox-" + index;
+		
+		var flag = false;
+		
+		if($(eleCheckbox).is(":checked"))
+		{
+			
+			self.eventsCatIds.remove(objEveCat.Guid);
+			
+			flag = false;
+			
+		}
+		
+		else
+		{
+			self.eventsCatIds.push(objEveCat.Guid);
+			flag = true;
+		}
+		
+		$(eleCheckbox).prop("checked" , flag).checkboxradio('refresh');
+		
 	};
+	
+	
+	self.eventTypesSelectAll = function(){
+		
+		if($("#sel-all-chk-eve").is(":checked"))
+		{
+			
+		}
+		
+		else
+		{
+			self.eventsCatIds.removeAll();			
+		}
+	}
 	
 }
 
@@ -220,10 +255,11 @@ ko.bindingHandlers.jqmChecked = {
 		
 		var eveCatID = ko.unwrap(valueAccessor());
 		
-		$(element).on("click" , function(){
+		$(element).checkboxradio();
+		
+		$(element).on("change" , function(){
 			
-				log.fatal(ko.toJSON(calView.eventsCatIds()));
-			
+							
 				if($(this).is(":checked"))
 				{
 					calView.eventsCatIds.push(eveCatID);
@@ -239,7 +275,10 @@ ko.bindingHandlers.jqmChecked = {
 	
     update: function (element, valueAccessor) {
        
-		//$(element).checkboxradio("refresh");
+	      //refresh the element (for jquerymobile)
+         $(element).prop("checked" , true).checkboxradio('refresh');
+		
+		
     }
 }
 

@@ -43,8 +43,14 @@
 
 				<div id="primary-left" class="content-primary clearfix" >
 					<div class="left_list_view">
-						<!--<ul data-role="listview" data-bind="template : {name : 'tpl-event-categories' , foreach : eventsCategories , as : 'eveType' , afterRender : eventTypesTemplateAfterRender , afterAdd : eventTypesAfterAdd}">-->
 						
+						<div class="select_all_check_event">
+							
+							<label for="sel-all-chk-eve" data-iconpos="right">
+								<input type="checkbox" name="sel-all-chk-eve" id="sel-all-chk-eve" value="" />
+								Select All
+							</label>
+						</div>
 						
 						<ul data-role="listview" data-bind="template : {name : 'tpl-event-categories' , foreach : eventsCategories , as : 'eveType'}">
 							<!--<li data-role="list-divider" data-theme="c">Event Types
@@ -53,29 +59,6 @@
 									<label for="sel-all-chk-eve" data-iconpos="right">Select All</label>
 								</div>
 							</li>-->
-							
-							
-							<!-- <li class="left_list_view_li">
-								<div class="checkbox_background" style="background: #009999;">
-									<input type="checkbox" name="checkbox-1" id="checkbox-1" class="custom" data-role="none" />
-									<label for="checkbox-1">
-									</label>
-								</div>
-								<a href="#">Segment Hub Weekly Meeting</a>
-							</li>
-							
-							
-							<li class="left_list_view_li">
-								<div class="checkbox_background" style="background: #009999;">
-									<input type="checkbox" name="checkbox-1" id="checkbox-1" class="custom"  data-role="none"/>
-									<label for="checkbox-1">
-									</label>
-								</div>
-								<a href="#">Segment Hub Weekly Meeting</a>
-							</li-->
-
-							
-							
 						</ul>
 					</div>
 				</div>
@@ -163,12 +146,14 @@
 		
 	<script type="text/html" id="tpl-event-categories">
 		
-		<li class="left_list_view_li" data-bind="attr : {'data-category-id' : eveType.Id , 'data-event-type-id' : eveType.Guid }">
+		<li class="left_list_view_li" data-bind="click : $parent.eventTypesLabelClick.bind($data , $index()) , attr : {'data-category-id' : eveType.Id , 'data-event-type-id' : eveType.Guid , id : 'event-cat-' + $index() }">
 				<div class="checkbox_background" data-bind="style : {backgroundColor : eveType.Color}">
-					<input type="checkbox" data-bind="jqmChecked:eveType.Guid" class="custom" />
-					<label for="$index"></label>
+					
+					<label>
+						<input type="checkbox" data-bind="jqmChecked:eveType.Guid , attr:{id : 'checkbox-' + $index() , name : 'checkbox-' + $index()}" class="custom" />
+					</label>
 				</div>
-				<a href="#" class="largeeventtype" data-bind="text: eveType.Name"></a>
+				<a href="#"  class="largeeventtype" data-bind="text: eveType.Name"></a>
 		</li>
 		
 	</script>							

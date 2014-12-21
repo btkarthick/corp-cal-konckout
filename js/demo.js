@@ -13,7 +13,8 @@ var calendarDataSuccess = function(data){
 				
 		$("#primary-left ul").listview("refresh");
 		
-		$("#primary-left ul").find("INPUT[type='checkbox']").prop("checked" , true);
+		$("#sel-all-chk-eve").prop("checked" , true).checkboxradio("refresh");
+
 	}
 }
 

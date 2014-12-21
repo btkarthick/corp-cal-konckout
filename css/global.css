@@ -609,9 +609,15 @@ div.ui-header
 	}
 /*------------- event page select all style ------------*/
 
+.select_all_check_event{
+	
+	background-color: #f3f3f3;
+	padding-top: 12px;
+	padding-bottom: 2px;
+}
+
 .select_all_check_event div.ui-checkbox
 {
-	position: absolute;
 	right: 0px;
     top: 2px;
     z-index:100;
@@ -657,6 +663,7 @@ background: transparent;
 background: transparent;
 border: 0px;
 box-shadow: none;
+	left: 10px;
 }
 .select_all_check_event div.ui-checkbox label span.ui-icon.ui-icon-checkbox-on {
 background: url(../css/images/icons2/Layer_18.png) transparent;
@@ -665,6 +672,7 @@ box-shadow: none;
 width: 22px;
 height: 20px;
 top: 15px;
+left: 10px;	
 }
 /*--------------- Pop Up page Event Details -----------*/
 #event_detail p
