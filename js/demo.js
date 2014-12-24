@@ -6,6 +6,8 @@ var calendarDataSuccess = function(data){
 
 		calView.eventsCategories = calendarModel.Output.eventtypelist;
 		
+		calView.eventsCatLength(calView.eventsCategories.length);
+		
 		getEventsCategoryIDs();
 		
 		ko.applyBindings(calView);
@@ -20,8 +22,7 @@ var calendarDataSuccess = function(data){
 
 var getEventsCategoryIDs = function(){
 	
-	var arrIDs = [];
-	
+		
 	$.each(calView.eventsCategories , function(i , obj){
 		
 		calView.eventsCatIds.push(obj.Guid);

@@ -21,6 +21,8 @@ var calendarViewModel = function(){
 		
 	self.allYearsList = ["2013","2014","2015","2016"];
 	
+	self.eventsCatLength = ko.observable(null);
+	
 	self.currentCalendar = function(){
 		
 		var objCalendar = [];
@@ -134,12 +136,31 @@ var calendarViewModel = function(){
 		
 		if($("#sel-all-chk-eve").is(":checked"))
 		{
+			self.eventsCatIds.removeAll();
 			
+			$("INPUT[name|='checkbox']").prop("checked" , false).checkboxradio("refresh");
+			$("#sel-all-chk-eve").prop("checked" , true).checkboxradio("refresh");
 		}
 		
 		else
 		{
-			self.eventsCatIds.removeAll();			
+			 $("INPUT[name|='checkbox']").prop("checked" , true).checkboxradio("refresh");
+			
+			$("#sel-all-chk-eve").prop("checked" , false).checkboxradio("refresh");	
+			
+				var allIDs = [];
+			
+				$.each(self.eventsCategories , function(i , obj){
+
+					allIDs.push(obj.Guid);
+					
+
+				});
+			
+				self.eventsCatIds.removeAll();
+				
+				self.eventsCatIds(allIDs);
+				
 		}
 	}
 	
@@ -293,3 +314,28 @@ ko.bindingHandlers.eventHideShow = {
 	} 
 	
 }
+
+ko.bindingHandlers.jqmSelectAll = {
+	
+	init : function(element){ 
+	
+		$("#sel-all-chk-eve").checkboxradio();
+	
+	} ,
+	
+	
+	update : function(element, valueAccessor , allBindings, bindingContext){
+		
+			var initailLength = parseInt(bindingContext.eventsCatLength());
+		
+			var currentLength = parseInt(bindingContext.eventsCatIds().length);
+		
+			var checkedFlag = (initailLength !== currentLength) ? false : true;
+					
+			$("#sel-all-chk-eve").prop("checked" , checkedFlag).checkboxradio("refresh");
+			
+			console.log(initailLength + " --- " + currentLength);
+	}
+	
+}
+
