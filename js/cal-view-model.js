@@ -65,21 +65,15 @@ var calendarViewModel = function(){
 
 								 if(!$.isEmptyObject(objEvent.Events))
 								 {
-									 //var counter = 0;	
-									
+									objEvents["EventsLength"] = objEvent.Events.length;
+									 
+									 									 
 									 $.each(objEvent.Events , function(k , eve){
 
 									   if(self.eventsCatIds.indexOf(eve.EventTypeId) > -1)
 									   {
-											/*counter++;
+										   objEvents["Events"].push(eve);
 										   
-										   if(( counter > self.allowedEventsPerCell))
-										   { return false;}*/
-										   
-										    objEvents["Events"].push(eve);
-										   
-										   
-
 										}
 
 									 });
@@ -88,6 +82,7 @@ var calendarViewModel = function(){
 								 else
 								{
 									objEvents["Events"] = [];
+									objEvents["EventsLength"] = 0;
 								}
 
 							 }
@@ -101,6 +96,8 @@ var calendarViewModel = function(){
 			});			
 			
 		}
+		
+		log.fatal(ko.toJSON(objCalendar));
 	
 		return(objCalendar);
 	};
@@ -136,17 +133,15 @@ var calendarViewModel = function(){
 		
 		if($("#sel-all-chk-eve").is(":checked"))
 		{
-			self.eventsCatIds.removeAll();
 			
-			$("INPUT[name|='checkbox']").prop("checked" , false).checkboxradio("refresh");
-			$("#sel-all-chk-eve").prop("checked" , true).checkboxradio("refresh");
+			//$("#sel-all-chk-eve").prop("checked" , true).checkboxradio("refresh");
 		}
 		
 		else
 		{
 			 $("INPUT[name|='checkbox']").prop("checked" , true).checkboxradio("refresh");
 			
-			$("#sel-all-chk-eve").prop("checked" , false).checkboxradio("refresh");	
+			//$("#sel-all-chk-eve").prop("checked" , false).checkboxradio("refresh");	
 			
 				var allIDs = [];
 			
@@ -162,6 +157,8 @@ var calendarViewModel = function(){
 				self.eventsCatIds(allIDs);
 				
 		}
+		
+		//ko.applyBindings(ko.bindingHandlers.jqmSelectAll);
 	}
 	
 }
@@ -317,10 +314,37 @@ ko.bindingHandlers.eventHideShow = {
 
 ko.bindingHandlers.jqmSelectAll = {
 	
-	init : function(element){ 
+	init : function(element , valueAccessor , allBindings, bindingContext){ 
 	
-		$("#sel-all-chk-eve").checkboxradio();
-	
+		$(element).on("click" , function(event){
+			
+			var checked = $(element).hasClass("ui-checkbox-off");
+			
+				if(checked)
+				{
+					
+					$("INPUT[name|='checkbox']").prop("checked" , true).checkboxradio("refresh");
+					
+					$(element).next("INPUT").prop("checked" , true).checkboxradio("refresh");
+					
+					var allIDs = [];
+					$.each(bindingContext.eventsCategories , function(i , obj){
+						allIDs.push(obj.Guid);
+					});
+
+					bindingContext.eventsCatIds.removeAll();
+					bindingContext.eventsCatIds(allIDs);
+				}
+			
+				else
+				{
+					bindingContext.eventsCatIds.removeAll();
+					
+					$("INPUT[name|='checkbox']").prop("checked" , false).checkboxradio("refresh");
+				}
+			
+		});
+
 	} ,
 	
 	
@@ -331,10 +355,33 @@ ko.bindingHandlers.jqmSelectAll = {
 			var currentLength = parseInt(bindingContext.eventsCatIds().length);
 		
 			var checkedFlag = (initailLength !== currentLength) ? false : true;
+		
+			if(initailLength !== currentLength)
+			{
+				if($(element).hasClass("ui-checkbox-on"))
+				{
 					
-			$("#sel-all-chk-eve").prop("checked" , checkedFlag).checkboxradio("refresh");
+					$(element).removeClass("ui-checkbox-on").addClass("ui-checkbox-off");
+					
+					$(element).find("span.ui-icon-checkbox-on")
+							  .removeClass("ui-icon-checkbox-on")
+					          .addClass("ui-icon-checkbox-off");
+				}
+				
+			}
+		
+			else
+			{
+				$(element).removeClass("ui-checkbox-off").addClass("ui-checkbox-on");
+					
+					$(element).find("span.ui-icon-shadow")
+							  .removeClass("ui-icon-checkbox-off")
+					          .addClass("ui-icon-checkbox-on");
+			}
+			 		
+			//$(element).next("INPUT").prop("checked" , checkedFlag).checkboxradio("refresh");
 			
-			console.log(initailLength + " --- " + currentLength);
+			
 	}
 	
 }
